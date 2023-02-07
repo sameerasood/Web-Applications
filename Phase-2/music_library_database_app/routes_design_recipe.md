@@ -12,10 +12,26 @@ You'll need to include:
 
   post/albums
 
+  get /artists
+
+  POST /artists
+
+  GET /artists
+
 # With body parameters:
 title=Voyage
 release_year=2022
 artist_id=2
+
+# With body parameters:
+name=Wild nothing
+genre=Indie
+
+# Expected response (200 OK)
+(No content)
+
+# Expected response (200 OK)
+Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothin
 
 ## 2. Design the Response
 
@@ -37,7 +53,7 @@ release_year: '2022',
 artist_id = '2'
 )
 ```
-
+response = get('/artists?list=Pixies, ABBA, Taylor Swift, Nina Simone')
 ```html
 <!-- EXAMPLE -->
 <!-- Response when the post is not found: 404 Not Found -->
@@ -64,6 +80,9 @@ Post/albums
 
 Response for 200 OK
 ```
+get/artists
+Expected response:
+Response for 200 OK
 
 ```
 
@@ -95,6 +114,16 @@ describe Application do
         expect(response.body).to eq("")
     end
   end
+
+  context "GET/artists" do
+    it 'returns the list of artists' do
+    response = get('/artists?list=Pixies, ABBA, Taylor Swift, Nina Simone')
+    expect(response.status).to eq(200)
+    expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone")
+    end
+  end
+
+  
 end
 ```
 
