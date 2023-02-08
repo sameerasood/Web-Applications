@@ -2,6 +2,7 @@ require "spec_helper"
 require "rack/test"
 require_relative '../../app'
 
+
 describe Application do
   # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
@@ -37,7 +38,7 @@ describe Application do
       response = get('/albums')
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Albums</h1>')
-      expect(response.body).to include('Title: Surfer Rosa')
+      expect(response.body).to include('Title: <a href = "albums/2">Surfer Rosa</a>')
     end
   end
 
@@ -45,7 +46,18 @@ describe Application do
     it 'returns the list of artists' do
     response = get('/artists')
     expect(response.status).to eq(200)
-    expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos")
+    expect(response.body).to include('Name:ABBA')
+    expect(response.body).to include('Genre:Pop')
+    end
+  end
+
+  context "GET /artists/:id" do
+    it 'returns the artist with id = 1' do
+    response = get('/artists/1')
+    expect(response.status).to eq(200)
+    expect(response.body).to include('<h1>Artists</h1>')
+    expect(response.body).to include('Name:Pixies')
+    expect(response.body).to include('Genre:Rock')
     end
   end
 
@@ -59,7 +71,7 @@ describe Application do
 
     response = get('/artists')
     expect(response.status).to eq(200)
-    expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos, Wild nothing")
+    expect(response.body).to include('Wild nothing')
     end
   end
 end
