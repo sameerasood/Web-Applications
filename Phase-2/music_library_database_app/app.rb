@@ -14,8 +14,8 @@ class Application < Sinatra::Base
     also_reload 'lib/artist_repository'
   end
 
-  get '/' do
-    return erb(:index)
+  get '/albums/new' do
+    return erb(:new_album)
   end
 
   post '/albums' do
@@ -45,6 +45,10 @@ class Application < Sinatra::Base
     artist_repo = ArtistRepository.new
     @artists = artist_repo.all
     return erb(:get_artists)
+  end
+
+  get '/artists/new' do
+    return erb(:new_artist)
   end
 
   get '/artists/:id' do

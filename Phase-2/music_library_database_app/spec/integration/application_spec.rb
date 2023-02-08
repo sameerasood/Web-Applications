@@ -11,6 +11,17 @@ describe Application do
   # class so our tests work.
   let(:app) { Application.new }
 
+  context "GET /albums/new" do
+    it "should return a form to add a new album" do
+      response = get('/albums/new')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="post" action="/albums">')
+      expect(response.body).to include('<input type="text" name="title">')
+      expect(response.body).to include('<input type="text" name="release_year">')
+      expect(response.body).to include('<input type="text" name="artist_id">')
+    end
+  end
+
   context "POST /albums" do
     it 'adds new album to the database' do
         response = post(
@@ -46,8 +57,8 @@ describe Application do
     it 'returns the list of artists' do
     response = get('/artists')
     expect(response.status).to eq(200)
-    expect(response.body).to include('Name:ABBA')
-    expect(response.body).to include('Genre:Pop')
+    expect(response.body).to include('Name: <a href = "artists/1">Pixies</a>')
+    expect(response.body).to include('Genre:Rock')
     end
   end
 
@@ -57,7 +68,6 @@ describe Application do
     expect(response.status).to eq(200)
     expect(response.body).to include('<h1>Artists</h1>')
     expect(response.body).to include('Name:Pixies')
-    expect(response.body).to include('Genre:Rock')
     end
   end
 
@@ -72,6 +82,16 @@ describe Application do
     response = get('/artists')
     expect(response.status).to eq(200)
     expect(response.body).to include('Wild nothing')
+    end
+  end
+
+  context "GET /artists/new" do
+    it "should return a form to add a new artist" do
+      response = get('/artists/new')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="post" action="/artists">')
+      expect(response.body).to include('<input type="text" name="name">')
+      expect(response.body).to include('<input type="text" name="genre">')
     end
   end
 end
