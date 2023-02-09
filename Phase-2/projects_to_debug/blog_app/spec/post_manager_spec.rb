@@ -13,7 +13,7 @@ describe PostManager do
 
   it 'adds new post' do
     manager = PostManager.new
-    new_post_coding = Post.new('Test post', 'Hello!', ['coding'])
+    new_post_coding = Post.new('Test post coding', 'Hello!', ['coding'])
     new_post_music = Post.new('Another test post', 'Hi!', ['music'])
 
     manager.add_post(new_post_coding)
